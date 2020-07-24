@@ -18,6 +18,9 @@ import 'imageProcessing.dart';
 
 
 class Camera_screen extends StatefulWidget {
+  final cameramodal;
+
+   Camera_screen({ this.cameramodal}) ;
 
   @override
   _Camera_screen_state createState() => _Camera_screen_state();
@@ -44,8 +47,7 @@ class _Camera_screen_state extends State<Camera_screen> {
     {"A": "145", "E": "66"},
     {"A": "180", "E": "66"},
     {"A": "215", "E": "66"},
-    {"A": "250", "E": "66"},
-  ];
+    {"A": "250", "E": "66"},     ];
   List<Points> _list = List<Points>();
   List<Points> _visible_point_list = List<Points>();
   int list_index;
@@ -101,19 +103,17 @@ class _Camera_screen_state extends State<Camera_screen> {
     super.dispose();
   }
   void initializeCamera() async{
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
+
     setState(() {
       _controller = camera_.CameraController(
-          firstCamera, camera_.ResolutionPreset.high);
+         widget.cameramodal.camera , camera_.ResolutionPreset.medium,);
       _initialiseControllerFuture = _controller.initialize();
     });
 
   }
 
   Widget build(BuildContext context) {
-    final camera_model = Provider.of<CameraModel>(context);
-     return Scaffold(
+      return Scaffold(
         backgroundColor: Color.fromRGBO(97, 97, 97, 1),
         body: Stack(
           children: <Widget>[
@@ -142,7 +142,7 @@ class _Camera_screen_state extends State<Camera_screen> {
                   roll: roll,
                   n: number,
                   ImgList: _imglist,
-                  cameramodal: camera_model,
+                  cameramodal: widget.cameramodal,
                   list: _list,
                   img: imgframelist,
                   visible_list: _visible_point_list),
@@ -168,10 +168,10 @@ class _Camera_screen_state extends State<Camera_screen> {
                     foregroundPainter: ProgressPainer(number/15),
                     child:   GestureDetector(
                       onTap: () async{
-                       if (number == 1) {
+                       if (number == 15) {
                           _controller.dispose();
                  await ProcessImage(imagepaths: _imglist,
-                              camera_modal: camera_model,size: MediaQuery.of(context).size).Process();
+                              camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process();
 
                           //                          Navigator.push(context, MaterialPageRoute(
 //                              builder: (BuildContext context) =>
@@ -238,10 +238,10 @@ class _Camera_screen_state extends State<Camera_screen> {
     _list.forEach((element) {
       var _listA=int.parse(element.A);
       var _listE=int.parse(element.E);
-      if((_listA-current_A<40&&(_listA-current_A>0)&&(_listE-current_E)==0)
-          ||(_listA-current_A>-40&&(_listA-current_A<0)&&(_listE-current_E)==0)
-          ||(_listA-current_A==0&&(_listE-current_E)<25&&(_listE-current_E)>0)
-          ||(_listA-current_A==0&&(_listE-current_E)>-25&&(_listE-current_E)<0)){
+      if((_listA-current_A<80&&(_listA-current_A>0)&&(_listE-current_E)==0)
+          ||(_listA-current_A>-80&&(_listA-current_A<0)&&(_listE-current_E)==0)
+          ||(_listA-current_A==0&&(_listE-current_E)<40&&(_listE-current_E)>0)
+          ||(_listA-current_A==0&&(_listE-current_E)>-40&&(_listE-current_E)<0)){
         print("#6 STATUS 200");
         setState(() {
           if(!_visible_point_list.contains(element)) {

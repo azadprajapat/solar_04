@@ -16,20 +16,18 @@ final size;
     ProcessImage({this.imagepaths,this.camera_modal,this.size});
 
      Process() async{
-       var fh = size.width/2/tan(( (camera_modal.Horizontal_View_angle*pi)/180));
-       var fv = size.height/2/tan(((camera_modal.Vertical_View_angle)*pi/180));
+//       var fh = size.width/2/tan(( (camera_modal.Horizontal_View_angle*pi)/180));
+//       var fv = size.height/2/tan(((camera_modal.Vertical_View_angle)*pi/180));
        int row = 361;
       int col = 91;
-      Immage.Image imggg=Immage.Image.rgb(361, 91);
+      Immage.Image imggg=Immage.Image.rgb(361,91);
       var matrix = List<List<int>>.generate(
           col, (i) => List<int>.generate(row, (j) => 4279374099));
-     // print(atan(1280/(fv))*180/pi);
-      // print(atan(720/(fh))*180/pi);
-       print(atan(720/(camera_modal.focal_length))*180/pi);
-       print(atan(1280/(camera_modal.focal_length))*180/pi);
-     for(int t=0;t<1;t++) {
+      for(int t=0;t<15;t++) {
           var file = await File(imagepaths[t].Imagepath).readAsBytesSync();
           Immage.Image img = await Immage.decodeImage(file);
+          print(imagepaths[t].azimuth);
+          print(imagepaths[t].elevation);
           for (int i = 0; i < img.width; i++) {
             for (int j = 0; j < img.height; j++) {
               var pixel = await img.getPixel(i, j);
@@ -41,31 +39,38 @@ final size;
               var A = await (imagepaths[t].azimuth + atan(x/(camera_modal.focal_length))*180/pi)
                   .toInt();
               var E = await (imagepaths[t].elevation - atan(y/(camera_modal.focal_length))*180/pi).toInt();
-              if(E>90){
+               if(E>90){
                 E=90;
               }
               if(E<0){
                 E=0;
               }
-              if(A<0){
-                A=0;
+              if(A<90){
+                A=90;
               }
-              if(A>360){
-                A=360;
+              if(A>270){
+                A=270;
               }
-//              print(x);
-//              print(focallength*100);
-//              print(atan(x/focallength)*180/pi);
-//              print(atan(y/focallength)*180/pi);
-      //        print(A);
-        //      print(E);
-            //  imggg.setPixelRgba(A, E, r, g, b,);
-              imggg.setPixel(A, E, pixel);
-            }
+              if(i==0&&j==0){
+                print(" LT  A:${A} & E:${E}");
+              }
+              if(i==img.width/4&&j==img.height/4){
+                print("A:${A} & E:${E}");
+              }
+              if(i==img.width-1&&j==0){
+                print("RT A:${A} & E:${E}");
+              }
+              if(i==img.width-1&&j==img.height-1){
+                print("RB A:${A} & E:${E}");
+              }
+              if(i==0&&j==img.height-1){
+                print("LB  A:${A} & E:${E}");
+              }
+            matrix[i][j]=pixel;
+                }
           }
 
         }
-
    var fl=  await File('${(await getTemporaryDirectory()).path}/imgtotal.png');
      await fl.writeAsBytesSync(Immage.writeJpg(imggg));
       print("written successfully");
