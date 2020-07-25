@@ -11,5 +11,4 @@ class Sun with ChangeNotifier{
     SunPitch=val;
     notifyListeners();
   }
-
 }

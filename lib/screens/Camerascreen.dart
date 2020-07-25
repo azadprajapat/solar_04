@@ -12,9 +12,10 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:path/path.dart';
 import 'package:solar04/modals/CameraModel.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:solar04/screens/Resultpage.dart';
 import 'dart:math' as math;
-import 'CameraPainter.dart';
-import 'imageProcessing.dart';
+import '../CameraPainter.dart';
+import '../imageProcessing.dart';
 
 
 class Camera_screen extends StatefulWidget {
@@ -168,14 +169,12 @@ class _Camera_screen_state extends State<Camera_screen> {
                     foregroundPainter: ProgressPainer(number/15),
                     child:   GestureDetector(
                       onTap: () async{
-                       if (number == 15) {
+                       if (number == 1) {
                           _controller.dispose();
-                 await ProcessImage(imagepaths: _imglist,
-                              camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process();
-
-                          //                          Navigator.push(context, MaterialPageRoute(
-//                              builder: (BuildContext context) =>
-//                                  ));
+               //  await ProcessImage(imagepaths: _imglist,
+                 //             camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process();
+                 Navigator.push(context, MaterialPageRoute(
+                              builder: (BuildContext context) =>ResultPage()));
                         }
                       },
                       child: Container(
