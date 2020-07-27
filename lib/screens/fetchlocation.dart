@@ -26,8 +26,9 @@ class _Get_LocationState extends State<Get_Location> {
       body: SafeArea(
         child: Center(
           child: Container(
-            width: MediaQuery.of(context).size.width-50,
-            height: MediaQuery.of(context).size.height,
+            color: AppTheme.theme1,
+              padding: EdgeInsets.symmetric(horizontal: 25),
+             height: MediaQuery.of(context).size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -36,7 +37,7 @@ class _Get_LocationState extends State<Get_Location> {
                 ),
                 Text(
                   'Lattitude',
-                  style: AppTheme().body_text1,
+                  style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.w500),
                 ),
                 Spacer(
                   flex: 1,
@@ -76,9 +77,10 @@ class _Get_LocationState extends State<Get_Location> {
                 Spacer(
                   flex: 20,
                 ),
+
                 Text(
-                  'longitude',
-                  style: AppTheme().body_text1,
+                  'Longitude',
+                  style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.w500),
                 ),
                 Spacer(
                   flex: 1,
@@ -131,7 +133,7 @@ class _Get_LocationState extends State<Get_Location> {
                       height: 48,
                       width: 194,
                       decoration: BoxDecoration(
-                        color: Colors.black87,
+                        color: AppTheme.theme2,
                         borderRadius: BorderRadius.circular(48),
                       ),
                       child: Center(

@@ -35,8 +35,14 @@ dependencies:
   aeyrium_sensor: ^1.0.7
   permission_handler: ^5.0.1+1
   geolocator: ^5.3.1
+  flutter_speedometer: ^1.0.2
+  flutter_cupertino_date_picker: ^1.0.26+2
   font_awesome_flutter: ^8.8.1
+  month_picker_dialog: ^0.3.2
+  date_range_picker: ^1.0.6
+  progress_dialog: ^1.2.4
   shared_preferences: ^0.5.8
+  fl_chart: ^0.10.1
 
 
   intl:
@@ -58,7 +64,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/rotate.jpg
+    - assets/
+    - assets/Path 327.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -10,9 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:path/path.dart';
+import 'package:solar04/components/bottom_navigationbar.dart';
 import 'package:solar04/modals/CameraModel.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:solar04/screens/Resultpage.dart';
+import 'package:solar04/utils/AppTheme.dart';
+import 'file:///C:/Users/azad%20prajapat/AndroidStudioProjects/Solar%20Project/solar_04/lib/screens/bottomnavigation/Resultpage.dart';
 import 'dart:math' as math;
 import '../CameraPainter.dart';
 import '../imageProcessing.dart';
@@ -33,7 +35,7 @@ class _Camera_screen_state extends State<Camera_screen> {
   Future<void> _initialiseControllerFuture;
   var pitch;
   var roll;
-  List _list1 = [
+   List _list1 = [
     {"A": "110", "E": "22"},
     {"A": "145", "E": "22"},
     {"A": "180", "E": "22"},
@@ -57,11 +59,12 @@ class _Camera_screen_state extends State<Camera_screen> {
   var azimuth;
   StreamSubscription<dynamic> _streamSubscriptions;
   StreamSubscription<dynamic> _streamSubscriptions2;
+  bool volume=true;
+  var progreess=0.0;
 
-  @override
+   @override
   void initState() {
     initializeCamera();
-
     _list1.forEach((element) {
       _list.add(Points(A: element['A'], E: element['E']));
     });
@@ -90,7 +93,7 @@ class _Camera_screen_state extends State<Camera_screen> {
       });
 
     });
-  }
+    }
 
   @override
   void dispose() {
@@ -115,9 +118,19 @@ class _Camera_screen_state extends State<Camera_screen> {
 
   Widget build(BuildContext context) {
       return Scaffold(
-        backgroundColor: Color.fromRGBO(97, 97, 97, 1),
+        backgroundColor: AppTheme.theme1,
         body: Stack(
           children: <Widget>[
+            Positioned(
+              right: 40,
+              top: 40,
+              child: GestureDetector(
+                onTap: (){
+                  volume=!volume;
+                 },
+                child: Icon(volume?Icons.volume_up:Icons.volume_off,size: 30,color: Colors.white,),
+              ),
+            ),
             Container(
               alignment: Alignment.topCenter,
               padding: EdgeInsets.only(top: 70),
@@ -133,7 +146,6 @@ class _Camera_screen_state extends State<Camera_screen> {
                     )
                 ),
               ):Container(),
-
             ),
             CustomPaint(
               foregroundPainter: MyPainter(
@@ -171,10 +183,10 @@ class _Camera_screen_state extends State<Camera_screen> {
                       onTap: () async{
                        if (number == 1) {
                           _controller.dispose();
-               //  await ProcessImage(imagepaths: _imglist,
-                 //             camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process();
+                 await ProcessImage(imagepaths: _imglist,
+                              camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process(context,progress_callback);
                  Navigator.push(context, MaterialPageRoute(
-                              builder: (BuildContext context) =>ResultPage()));
+                              builder: (BuildContext context) =>Bottom_Navigation_bar()));
                         }
                       },
                       child: Container(
@@ -200,6 +212,11 @@ class _Camera_screen_state extends State<Camera_screen> {
           ],
         )
     );
+  }
+  void progress_callback(val){
+     setState(() {
+       progreess=val;
+     });
   }
 
   void TakePhoto(int index,int current_A,int current_E) async {

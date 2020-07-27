@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:solar04/screens/Resultpage.dart';
+import 'package:solar04/components/bottom_navigationbar.dart';
+import 'file:///C:/Users/azad%20prajapat/AndroidStudioProjects/Solar%20Project/solar_04/lib/screens/bottomnavigation/Resultpage.dart';
 import 'gettingstarted.dart';
 
 class Wrapper extends StatefulWidget {
@@ -21,7 +22,6 @@ class _WrapperState extends State<Wrapper> {
     setState(() {
       _isfirstlaunch = isfirstlaunch;
     });
-    await prefs.setBool("isfirstlaunch", false);
   }
 
   @override
@@ -33,7 +33,7 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     if (_isfirstlaunch != null) {
-      return _isfirstlaunch ? Get_Started() : ResultPage();
+      return _isfirstlaunch ? Get_Started() : Bottom_Navigation_bar();
     } else {
       return Container(
         child: Center(

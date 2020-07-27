@@ -11,6 +11,8 @@ static   Color appbar=button_background;
 static   Color heading=Colors.black87;
 static   Color icon_color =Color.fromRGBO(106, 159, 239,1);
 static  Color form_textC=Color.fromRGBO(74,72,88,1);
+static Color theme1= Color(0xff2c274c);
+static Color theme2=Colors.pinkAccent;
 
 final   TextStyle body_text1 = TextStyle(fontSize: 22.0, letterSpacing: 1.2, color: heading,fontWeight:FontWeight.w400);
 final  TextStyle button_text = TextStyle(fontSize: 32.0, color: button_textC);
