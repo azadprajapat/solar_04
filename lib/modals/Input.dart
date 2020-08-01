@@ -8,9 +8,6 @@ class Input with ChangeNotifier{
   var camera;
   var lattitude;
   var longitude;
-  double temperature;
-  double pressure;
-  double humidity;
   var imagepaths=[];
   double Sazimuth;
   DateTime dateTime;
@@ -40,19 +37,7 @@ void set_controller(){
     longitude=val;
     notifyListeners();
   }
-  void setTemperature(val){
-    temperature=val;
-    notifyListeners();
-  }
-  void setPressure(val){
-    pressure=val;
-    notifyListeners();
-  }
-  void setHumidity(val){
-    humidity=val;
-    notifyListeners();
-  }
-  void setPath(val){
+   void setPath(val){
     imagepaths.add(val);
       notifyListeners();
   }
@@ -78,5 +63,4 @@ void set_controller(){
        print('# STATUS 200 ${path}');
     await controller.takePicture(path);
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solar04/modals/CameraModel.dart';
+import 'package:solar04/modals/Resultprovider.dart';
 import 'package:solar04/screens/wrapper.dart';
 import 'modals/Input.dart';
 import 'modals/sunModel.dart';
@@ -12,6 +13,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<Input>(create: (context) => Input()),
+      ChangeNotifierProvider<ResultProvider>(create: (context) => ResultProvider()),
       ChangeNotifierProvider<Sun>(create: (context) => Sun()),
       ChangeNotifierProvider<CameraModel>(create: (context) => CameraModel()),
     ],

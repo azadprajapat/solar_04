@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:path/path.dart';
 import 'package:solar04/components/bottom_navigationbar.dart';
+import 'package:solar04/components/loader.dart';
 import 'package:solar04/modals/CameraModel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:solar04/utils/AppTheme.dart';
@@ -61,8 +62,7 @@ class _Camera_screen_state extends State<Camera_screen> {
   StreamSubscription<dynamic> _streamSubscriptions;
   StreamSubscription<dynamic> _streamSubscriptions2;
   bool volume=true;
-  String loading_text="";
-
+  
    @override
   void initState() {
     initializeCamera();
@@ -118,22 +118,7 @@ class _Camera_screen_state extends State<Camera_screen> {
   }
 
   Widget build(BuildContext context) {
-      return loading_text!=""?Scaffold(
-      backgroundColor: AppTheme.theme1,
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SpinKitChasingDots(color: Colors.white,size: 60,),
-              SizedBox(height: 50,),
-              Text(
-                loading_text
-                ,style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w300),)
-            ],
-          ),
-        ),
-      ):Scaffold(
+      return Scaffold(
         backgroundColor: AppTheme.theme1,
         body: Stack(
           children: <Widget>[
@@ -199,11 +184,10 @@ class _Camera_screen_state extends State<Camera_screen> {
                       onTap: () async{
                        if (number == 15) {
                          _controller.dispose();
-
-                         progress_callback("loading...");
-
+                         
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Loader()));
                  await ProcessImage(imagepaths: _imglist,
-                              camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process(context,progress_callback);
+                              camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process(context);
                  Navigator.push(context, MaterialPageRoute(
                               builder: (BuildContext context) =>Bottom_Navigation_bar()));
                         }
@@ -232,12 +216,7 @@ class _Camera_screen_state extends State<Camera_screen> {
         )
     );
   }
-  void progress_callback(val){
-     setState(() {
-       loading_text=val;
-     });
-  }
-
+  
   void TakePhoto(int index,int current_A,int current_E) async {
     await _initialiseControllerFuture;
     final path =

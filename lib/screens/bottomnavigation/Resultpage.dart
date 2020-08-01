@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solar04/components/bottomsheet.dart';
 import 'package:solar04/modals/CameraModel.dart';
+import 'package:solar04/modals/Resultprovider.dart';
 import 'package:solar04/modals/locationModel.dart';
 import 'package:solar04/utils/AppTheme.dart';
 import 'package:solar04/utils/getcameradata.dart';
@@ -27,10 +28,38 @@ class _ResultPageState extends State<ResultPage> {
 
   List<LocationModel> _list;
   int currentlocationindex = 0;
-
+  int percent;
+  String speedometer_text;
   @override
   void initState() {
+    var resultprovider=Provider.of<ResultProvider>(context,listen: false);
     setState(() {
+      percent=resultprovider.percent;
+      if(percent<20){
+        setState(() {
+          speedometer_text="very low";
+        });
+      }
+      else if(percent>=20&&percent<40){
+        setState(() {
+          speedometer_text="low";
+        });
+      }
+      else if(percent>=40&&percent<60){
+        setState(() {
+          speedometer_text="average";
+        });
+      }
+      else if(percent>=60&&percent<80){
+        setState(() {
+          speedometer_text="high";
+        });
+      }
+      else {
+        setState(() {
+          speedometer_text="very high";
+        });
+      }
       _list = [
         LocationModel(name: "Hall 13", lat: 23, long: 45),
         LocationModel(name: "Hall 12", lat: 23, long: 45),
@@ -101,7 +130,7 @@ class _ResultPageState extends State<ResultPage> {
                 minValue: 0,
                 maxValue: 100,
                 size: 170,
-                currentValue: 60,
+                currentValue: percent,
                 meterColor: Colors.redAccent,
                 warningValue: 30,
                 warningColor: Colors.green,
@@ -110,7 +139,7 @@ class _ResultPageState extends State<ResultPage> {
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w800),
-                displayText: "Above average",
+                displayText: speedometer_text,
                 displayTextStyle: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -133,13 +162,18 @@ class _ResultPageState extends State<ResultPage> {
                 flex: 10,
               ),
               Center(
-                child: Text(
-                  "your selected location is receiving good sunvisibility over the selected duration",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
-                  textAlign: TextAlign.center,
+                child: RichText(
+                  text: TextSpan(
+                    text: 'your selected location is receiving ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                    children: <TextSpan>[
+                      TextSpan(text: speedometer_text, style: TextStyle(fontWeight: FontWeight.bold,color: Colors.yellow)),
+                      TextSpan(text:" sunvisibility over the selected duration" ),
+                    ],
+                  ),
                 ),
               ),
               Spacer(
