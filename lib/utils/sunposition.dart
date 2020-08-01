@@ -84,6 +84,6 @@ SunAngle getsunpos (DateTime time,la,long){
 
   azimuth=180+azimuth;
   zenith=90-zenith;
-SunAngle _sun=new SunAngle(azimuth: azimuth,elevation: zenith);
+SunAngle _sun=new SunAngle(azimuth: (azimuth*10).toInt(),elevation: (zenith*10).toInt());
 return _sun;
 }

@@ -43,6 +43,7 @@ dependencies:
   progress_dialog: ^1.2.4
   shared_preferences: ^0.5.8
   fl_chart: ^0.10.1
+  flutter_spinkit: "^4.1.2"
 
 
   intl:

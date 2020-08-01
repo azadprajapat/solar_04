@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui' as ui;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:aeyrium_sensor/aeyrium_sensor.dart';
 import 'package:camera/camera.dart' as camera_;
@@ -60,7 +61,7 @@ class _Camera_screen_state extends State<Camera_screen> {
   StreamSubscription<dynamic> _streamSubscriptions;
   StreamSubscription<dynamic> _streamSubscriptions2;
   bool volume=true;
-  var progreess=0.0;
+  String loading_text="";
 
    @override
   void initState() {
@@ -117,7 +118,22 @@ class _Camera_screen_state extends State<Camera_screen> {
   }
 
   Widget build(BuildContext context) {
-      return Scaffold(
+      return loading_text!=""?Scaffold(
+      backgroundColor: AppTheme.theme1,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SpinKitChasingDots(color: Colors.white,size: 60,),
+              SizedBox(height: 50,),
+              Text(
+                loading_text
+                ,style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w300),)
+            ],
+          ),
+        ),
+      ):Scaffold(
         backgroundColor: AppTheme.theme1,
         body: Stack(
           children: <Widget>[
@@ -181,8 +197,11 @@ class _Camera_screen_state extends State<Camera_screen> {
                     foregroundPainter: ProgressPainer(number/15),
                     child:   GestureDetector(
                       onTap: () async{
-                       if (number == 1) {
-                          _controller.dispose();
+                       if (number == 15) {
+                         _controller.dispose();
+
+                         progress_callback("loading...");
+
                  await ProcessImage(imagepaths: _imglist,
                               camera_modal: widget.cameramodal,size: MediaQuery.of(context).size).Process(context,progress_callback);
                  Navigator.push(context, MaterialPageRoute(
@@ -215,7 +234,7 @@ class _Camera_screen_state extends State<Camera_screen> {
   }
   void progress_callback(val){
      setState(() {
-       progreess=val;
+       loading_text=val;
      });
   }
 
